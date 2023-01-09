@@ -59,7 +59,7 @@ class _FormScreenState extends State<FormScreen> {
                     keyboardType: TextInputType.number,
                     controller: difficultyInputController,
                     validator: (value) {
-                      if (value!.isEmpty || int.parse(value) > 5 || int.parse(value) < 1) {
+                      if (value != null && (value.isEmpty || int.parse(value) > 5 || int.parse(value) < 1)) {
                         return 'Insira uma dificuldade entre 1 e 5';
                       }
                       return null;

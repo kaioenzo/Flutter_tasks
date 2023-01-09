@@ -4,6 +4,8 @@ import 'package:flutter_application_first/components/task.dart';
 class TaskInherited extends InheritedWidget {
   TaskInherited({super.key, required Widget child}) : super(child: child);
 
+  double nivel = 0;
+
   final List<Task> taskList = [
     const Task(
       tarefa: 'Aprender Flutter',

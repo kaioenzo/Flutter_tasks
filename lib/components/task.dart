@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_first/components/difficulty.dart';
+import 'package:flutter_application_first/data/task_inherited.dart';
 
 class Task extends StatefulWidget {
   final String tarefa;
@@ -84,6 +85,8 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            TaskInherited.of(context).nivel += 1;
+                            print(TaskInherited.of(context).nivel);
                             nivel++;
                           });
                         },

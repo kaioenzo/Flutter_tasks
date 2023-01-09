@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_first/components/account_level.dart';
 import 'package:flutter_application_first/data/task_inherited.dart';
 import 'package:flutter_application_first/screens/form_screen.dart';
 
@@ -9,10 +10,10 @@ class InitialScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: const Text('Tarefas'),
+        title: AccountLevel(),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.only(top: 8, bottom: 70),
         children: TaskInherited.of(context).taskList,
       ),
       floatingActionButton: FloatingActionButton(
