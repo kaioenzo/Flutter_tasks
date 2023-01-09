@@ -14,6 +14,12 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+  bool assetOrNetwork() {
+    if (widget.imgUrl.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +42,25 @@ class _TaskState extends State<Task> {
                 height: 100,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Container(
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(66, 207, 207, 207), borderRadius: BorderRadius.circular(4)),
-                      width: 72,
-                      height: 100,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          widget.imgUrl,
-                          fit: BoxFit.contain,
-                        ),
-                      )),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(66, 207, 207, 207),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    width: 72,
+                    height: 100,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: assetOrNetwork()
+                          ? Image.asset(
+                              widget.imgUrl,
+                              fit: BoxFit.contain,
+                            )
+                          : Image.network(
+                              widget.imgUrl,
+                              fit: BoxFit.contain,
+                            ),
+                    ),
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,11 +109,12 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                        width: 200,
-                        child: LinearProgressIndicator(
-                          color: Colors.white,
-                          value: widget.dificuldade > 0 ? (nivel / widget.dificuldade) / 10 : 1,
-                        )),
+                      width: 200,
+                      child: LinearProgressIndicator(
+                        color: Colors.white,
+                        value: widget.dificuldade > 0 ? (nivel / widget.dificuldade) / 10 : 1,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

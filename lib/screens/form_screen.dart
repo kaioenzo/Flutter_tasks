@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_first/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({super.key});
+  const FormScreen({super.key, required this.taskContext});
+
+  final BuildContext taskContext;
 
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
-  TextEditingController nameInputController = TextEditingController();
-  TextEditingController difficultyInputController = TextEditingController();
-  TextEditingController imageInputController = TextEditingController();
+  final TextEditingController nameInputController = TextEditingController();
+  final TextEditingController difficultyInputController = TextEditingController();
+  final TextEditingController imageInputController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   var snackBar = const SnackBar(
@@ -53,44 +56,46 @@ class _FormScreenState extends State<FormScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      controller: difficultyInputController,
-                      validator: (value) {
-                        if (value!.isEmpty || int.parse(value) > 5 || int.parse(value) < 1) {
-                          return 'Insira uma dificuldade entre 1 e 5';
-                        }
-                        return null;
-                      },
-                      textAlign: TextAlign.left,
-                      decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          labelText: 'Choose a difficulty',
-                          fillColor: Colors.white70,
-                          filled: true)),
+                    keyboardType: TextInputType.number,
+                    controller: difficultyInputController,
+                    validator: (value) {
+                      if (value!.isEmpty || int.parse(value) > 5 || int.parse(value) < 1) {
+                        return 'Insira uma dificuldade entre 1 e 5';
+                      }
+                      return null;
+                    },
+                    textAlign: TextAlign.left,
+                    decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Choose a difficulty',
+                        fillColor: Colors.white70,
+                        filled: true),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                      controller: imageInputController,
-                      keyboardType: TextInputType.datetime,
-                      validator: (value) => value == null || value.isEmpty ? 'Não pode ser vazio!' : null,
-                      textAlign: TextAlign.left,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                      decoration: const InputDecoration(
-                          labelText: 'Url of image',
-                          border: UnderlineInputBorder(),
-                          fillColor: Colors.white70,
-                          filled: true)),
+                    controller: imageInputController,
+                    validator: (value) => value == null || value.isEmpty ? 'Não pode ser vazio!' : null,
+                    textAlign: TextAlign.left,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    decoration: const InputDecoration(
+                        labelText: 'Url of image',
+                        border: UnderlineInputBorder(),
+                        fillColor: Colors.white70,
+                        filled: true),
+                  ),
                 ),
                 Container(
                   height: 100,
                   width: 100,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(width: 2, color: Colors.blue)),
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: 2, color: Colors.blue),
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
@@ -103,13 +108,19 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.of(context).pushReplacementNamed("/home");
-                      }
-                    },
-                    child: const Text('Add task'))
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      TaskInherited.of(widget.taskContext).addTask(
+                        name: nameInputController.text,
+                        photo: imageInputController.text,
+                        difficulty: double.parse(difficultyInputController.text),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text('Add task'),
+                ),
               ]),
             ),
           ),
